@@ -18,7 +18,7 @@
 
 # GC content: The minimum and maximum allowed GC content of the primers. Default is a minimum of 40% and a maximum of 60%.
 
-# First base must be A or T: Whether the 5' base must be an A or a T. Turned on by default.
+# First base must be A or T: Whether the 5' base must be an A or a T. Turned off by default.
 
 # Last base must be G or C: Whether the 3' base must be a G or a C. Turned on by default, and not recommended to turn off.
 
