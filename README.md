@@ -28,4 +28,6 @@
 
 # #G or C in last 6 bases: Defines how many of the last 6 bases on the 3' side of the primer must be a G or C.
 
+# Salt Concentration: The salt concentration in your PCR, unit is Molar. Salt concentration affects the melting temperature of your primers.
+
 # All settings are saved in real time. All entries must be numbers, otherwise the setting will restore to its default value. The 'Restore Defaults' button does just as the name implies; it restores the value of all settings to their defaults.
