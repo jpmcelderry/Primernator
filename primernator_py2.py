@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from Tkinter import *
+import math as math
 
 class ABC(Frame):
     def __init__(self, master=None):
@@ -25,6 +26,7 @@ tk_last=BooleanVar()
 tk_last_6=IntVar()
 tk_rep_check=BooleanVar()
 tk_repetition=IntVar()
+tk_salt_conc=DoubleVar()
 
 tk_min_length.set(19)
 tk_max_length.set(22)
@@ -38,6 +40,7 @@ tk_last.set(True)
 tk_last_6.set(3)
 tk_rep_check.set(True)
 tk_repetition.set(4)
+tk_salt_conc.set(1.0)
 
 Total = Frame(root)
 Total.pack()
@@ -159,6 +162,13 @@ def settings_menu():
 	GCs_last6_label.pack(side = LEFT)
 	GCs_last6_entry = Entry(GCs_last6, textvariable=tk_last_6, width=10)
 	GCs_last6_entry.pack(side = LEFT)
+	
+	Salt_Conc = Frame(menu, width=50)
+	Salt_Conc.pack()
+	salt_conc_label = Label(Salt_Conc, text="Salt concentration:")
+	salt_conc_label.pack(side = LEFT)
+	salt_conc_entry = Entry(Salt_Conc, textvariable=tk_salt_conc, width=10)
+	salt_conc_entry.pack(side = LEFT)
 
 	def exit_settings():
 		menu.destroy()
@@ -268,6 +278,12 @@ def callback():
 	else:
 		repetition=4
 		final=final+"Invalid repetition setting, reset to default of 4 consecutive bases\n"
+		
+	if type(tk_salt_conc.get()) in (int, float):
+		salt_conc=int(tk_salt_conc.get())
+	else:
+		salt_conc=1
+		final=final+"Invalid salt concentration setting, reset to default of 1M NaCl\n"
 
 	################################################################################
 	########################LOOK FOR FORWARD PRIMERS################################
@@ -315,7 +331,8 @@ def callback():
 					dS=dS-19.9
 				else:
 					pass
-
+			
+			dS=dS+(.368*(len(Fprimer)-1)*math.log(salt_conc))
 			Tm=(dH/(dS+1.987*-16.8112428315))-273.15 #calculate Tm
 
 			GC_last6= Fprimer[-6:].count('G')+Fprimer[-6:].count('C') #calculate G/C's at 3' end of sequence
@@ -400,6 +417,7 @@ def callback():
 				else:
 					pass
 
+			dS=dS+(.368*(len(Rprimer)-1)*math.log(salt_conc))
 			Tm=(dH/(dS+1.987*-16.8112428315))-273.15
 
 			#Since these are reverse primers, the meaning of 5' and 3' changes so the coordinates for checking bases on the ends are reversed
