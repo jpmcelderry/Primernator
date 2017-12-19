@@ -12,6 +12,10 @@ root = Tk()
 app = ABC(master=root)
 app.master.title("The Prime(r)nator")
 
+#######################################################################
+################# SETTING UP VARIABLES IN TKINTER #####################
+#######################################################################
+
 tk_product_min=IntVar()
 tk_product_max=IntVar()
 tk_min_length=IntVar()
@@ -41,6 +45,10 @@ tk_last_6.set(3)
 tk_rep_check.set(True)
 tk_repetition.set(4)
 tk_salt_conc.set(1.0)
+
+#################################################################
+################ FORMATTING MAIN MENU ###########################
+#################################################################
 
 Total = Frame(root)
 Total.pack()
@@ -80,9 +88,15 @@ output_frame.pack()
 output=Text(output_frame, height=50, width=100, wrap=WORD)
 output.pack()
 
+##############################################################
+################### SETTINGS MENU ############################
+##############################################################
+
 def settings_menu():
 	menu=Toplevel()
 
+	################## FORMATTING SETTINGS MENU ######################
+	
 	Primer_Length = Frame(menu, width=50)
 	Primer_Length.pack()
 	Length_Min_Label = Label(Primer_Length, text="Primer Length-- Min:")
@@ -170,6 +184,8 @@ def settings_menu():
 	salt_conc_entry = Entry(Salt_Conc, textvariable=tk_salt_conc, width=10)
 	salt_conc_entry.pack(side = LEFT)
 
+	############# SETTING UP MENU BUTTONS ###############
+	
 	def exit_settings():
 		menu.destroy()
 
@@ -196,8 +212,14 @@ def settings_menu():
 	settings_quit_button = Button(Buttons_frame, text="SAVE & QUIT", width=10, command=exit_settings)
 	settings_quit_button.pack(side=LEFT)
 
-def callback():
+##############################################################
+##################### MAIN FUNCTION ##########################
+##############################################################
 
+def callback():
+	
+	############## GETTING USER-DEFINED VARIABLES & ERROR CHECKING #################
+	
 	final=""
 	full_sequence = str(total_seq.get())
 
@@ -285,20 +307,18 @@ def callback():
 		salt_conc=1
 		final=final+"Invalid salt concentration setting, reset to default of 1M NaCl\n"
 
-	################################################################################
 	########################LOOK FOR FORWARD PRIMERS################################
-	################################################################################
-
-	primer_forward_list=[] #make empty list to fill with primers that pass user-defined settings
-	for x in xrange(min_length,(max_length+1)): #look for every possible sequence that meets length requirements
-		for y in xrange(0,len(start)-x+1): #look in desired exon/feature
-			Fprimer=start[y:(y+x)]#slice the primer sequence in question
+	
+	primer_forward_list=[] #make empty list to fill with primers
+	for x in xrange(min_length,(max_length+1)): #look for every possible sequence that meets primer length requirements
+		for y in xrange(0,len(start)-x+1):
+			Fprimer=start[y:(y+x)] #slice primer sequences from the forward region
 
 			GC_content=(float(Fprimer.count('G')+Fprimer.count('C'))/float(len(Fprimer)))*100 #calculate GC%
 
 			dH=0.0 #value for enthalpy
 			dS=(.368*(len(Fprimer)-1)*-2.99573227355) #value of entropy
-			for z in xrange(0,len(Fprimer)-1): #loops calculates entropy and enthalpy of sequences provided for calculating Tm
+			for z in xrange(0,len(Fprimer)-1): #loop calculates entropy and enthalpy of sequences provided for calculating Tm
 				if Fprimer[z:(z+2)] in ('AA','TT'):
 					dH=dH-7900.0
 					dS=dS-22.2
@@ -332,7 +352,7 @@ def callback():
 				else:
 					pass
 			
-			dS=dS+(.368*(len(Fprimer)-1)*math.log(salt_conc))
+			dS=dS+(.368*(len(Fprimer)-1)*math.log(salt_conc)) #adjust for salt concentration
 			Tm=(dH/(dS+1.987*-16.8112428315))-273.15 #calculate Tm
 
 			GC_last6= Fprimer[-6:].count('G')+Fprimer[-6:].count('C') #calculate G/C's at 3' end of sequence
@@ -343,7 +363,7 @@ def callback():
 				else :
 					first_pass=False
 			else :
-				first_pass=True #otherwise pass is automatically
+				first_pass=True #otherwise pass automatically
 
 			if last == True : #if checking for 3' G/C is enabled, check the sequence and store a boolean to record whether it passed or not
 				if Fprimer[-1] in ('G','C') :
@@ -351,7 +371,7 @@ def callback():
 				else :
 					last_pass=False
 			else :
-				last_pass=True #otherwise pass is automatically
+				last_pass=True #otherwise pass automatically
 
 			if rep_check == True : #if checking for repetition is enabled, check the sequence and store a boolean to record whether it passed or not
 				if ('A'*repetition) in Fprimer or ('T'*repetition) in Fprimer or ('G'*repetition) in Fprimer or ('C'*repetition) in Fprimer :
@@ -359,20 +379,18 @@ def callback():
 				else :
 					rep_pass = True
 			else:
-				rep_pass = True #otherwise pass is automatically
+				rep_pass = True #otherwise pass automatically
 
 			Instances=full_sequence.count(Fprimer)
 
-			if (max_GC >= GC_content >= min_GC and max_Tm >= Tm >= min_Tm and GC_last6 >= last_6 and first_pass==True and last_pass==True and rep_pass==True and Instances==1): #If the primer meets all criteria, add it to the forward primer list
-				primer_forward_list.append([Fprimer,len(Fprimer),round(GC_content, 2),round(Tm, 2)])
+			if (max_GC >= GC_content >= min_GC and max_Tm >= Tm >= min_Tm and GC_last6 >= last_6 and first_pass==True and last_pass==True and rep_pass==True and Instances==1):
+				primer_forward_list.append([Fprimer,len(Fprimer),round(GC_content, 2),round(Tm, 2)]) #add primer to list along with data
 
 	final=final+("\nFound {} eligible forward primers.\n".format(len(primer_forward_list)))
 
 
-	################################################################################
 	########################LOOK FOR REVERSE PRIMERS################################
 	########  This code is much the same as the previous for-loop  #################
-	################################################################################
 
 	primer_reverse_list=[]
 	for x in xrange(min_length,(max_length+1)):
@@ -455,9 +473,7 @@ def callback():
 
 	final=final+("Found {} eligible reverse primers.\n\n".format(len(primer_reverse_list)))
 
-	#################################################################
-	###############CREATE PRIMER PAIRS###############################
-	#################################################################
+	############### SCREEN PRIMER PAIRS #############################
 
 	f_counter=0 #counter for how many times the first for loop has run for locating information of primers in forward_primer_list
 	candidates=[]
@@ -481,9 +497,7 @@ def callback():
 			r_counter=r_counter+1
 		f_counter=f_counter+1
 
-	###################################################################
-	######################PRINT OUTPUT#################################
-	###################################################################
+	###################### PRINT OUTPUT ###############################
 
 	def calculate_Tm_diff(list):
 		return abs(list[0][3] - list[1][3]) #calculate Tm difference of forward and reverse primers for sorting
@@ -505,9 +519,13 @@ def callback():
 	out.set(final)
 	output.insert(END, out.get())
 
+####################################################################
+##################### MAIN MENU BUTTONS ############################
+####################################################################
+
 def clear():
 	output.delete('1.0', END)
-
+	
 get_primers_button = Button(root, text="Get Primers", width=10, command=callback)
 get_primers_button.pack(side=LEFT)
 
