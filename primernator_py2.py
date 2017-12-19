@@ -183,6 +183,8 @@ def settings_menu():
 	salt_conc_label.pack(side = LEFT)
 	salt_conc_entry = Entry(Salt_Conc, textvariable=tk_salt_conc, width=10)
 	salt_conc_entry.pack(side = LEFT)
+	Salt_conc_M_label= Label(Salt_Conc, text="M")
+	Salt_conc_M_label.pack(side = LEFT)
 
 	############# SETTING UP MENU BUTTONS ###############
 	
