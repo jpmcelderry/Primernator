@@ -1,7 +1,7 @@
 # Prime(r)nator, a GUI primer-designing tool.
 
 # STEPS FOR GENERAL USE
-1. Put the entire sequence you are trying to amplify
+1. Put the entire sequence you are trying to amplify, from the first to the last base you would ever consider amplifying.
 2. Enter the sequence of the region in which you would like the forward primer to be designed. Leave this line empty if you are indifferent about where the forward primer is designed.
 3. Enter the sequence of the region in which you would like the reverse primer to be designed. Leave this line empty if you are indifferent about where the reverse primer is designed
 4. Enter values for the minimum and maximum sizes you would like for your final amplicon, or leave blank if you are indifferent.
