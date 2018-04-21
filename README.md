@@ -4,10 +4,10 @@
 #   1. Put the entire sequence you are trying to amplify
 #   2. Enter the sequence of the region in which you would like the forward primer to be designed. Leave this line empty if you are indifferent about where the forward primer is designed.
 #   3. Enter the sequence of the region in which you would like the reverse primer to be designed. Leave this line empty if you are indifferent about where the reverse primer is designed
-#   4. Enter values for the minimum and maximum sizes you would like for your final amplicon.
-#   5. Hit the 'Get Primers' button to view a list of the top 10 best primer combinations!
+#   4. Enter values for the minimum and maximum sizes you would like for your final amplicon, or leave blank if you are indifferent.
+#   5. Hit the 'Get Primers' button to view a list of the top 10 best primer combinations! (primer combos are rank ordered based on Tm similarity)
 #
-# The final primer sets are ranked based on the similarity of the melting temperatures between the forward and reverse primers. In addition, the prime(r)nator includes multiple options to create more perfect primers. Access these settings in the 'settings' menu.
+# In addition, the prime(r)nator includes multiple options to create more perfect primers. Access these settings in the 'settings' menu.
 #
 # OPTIONAL SETTINGS
 # Primer Length: The minimum and maximum lengths the primer sequences can be.
