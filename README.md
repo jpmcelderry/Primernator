@@ -1,5 +1,5 @@
-# Final Project, the Prime(r)nator, a primer designing tool with a GUI.
-#
+# Prime(r)nator, a GUI primer-designing tool.
+
 # STEPS FOR GENERAL USE
 1. Put the entire sequence you are trying to amplify
 2. Enter the sequence of the region in which you would like the forward primer to be designed. Leave this line empty if you are indifferent about where the forward primer is designed.
