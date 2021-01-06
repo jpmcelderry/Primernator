@@ -1,3 +1,5 @@
+#This is an old project from when I was unfamiliar with OOP principles, and thus is neither object-oriented nor efficient, but still works nonetheless
+
 # Prime(r)nator, a GUI primer-designing tool.
 
 # STEPS FOR GENERAL USE
